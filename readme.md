@@ -28,6 +28,23 @@ Code Blocks:
 
 Training was done on an **NVIDIA A100 GPU**.
 
+```mermaid
+flowchart LR
+    A[Start: Load Hymenoptera Dataset] --> B[Preprocess: Resize, Normalize, Augment]
+    B --> C[Split into Train / Val]
+    C --> D{Transfer Learning Mode?}
+    D -->|Fine-tune All Layers| E1[ResNet-18 → Replace FC]
+    D -->|Feature Extractor| E2[Freeze All Except FC]
+    E1 --> F[Train Model - SGD, LR Scheduler]
+    E2 --> F
+    F --> G[Evaluate on Val Set]
+    G --> H[Classification Report]
+    G --> I[Confusion Matrix]
+    G --> J[Grad-CAM Visualization]
+    J --> K[Compare Results]
+```
+
+
 ### 📊 Results
 #### Fine-tuned ResNet-18
 - Best Val Accuracy: **94.12%**
@@ -99,6 +116,22 @@ Code Blocks:
 - `# PART 2: Dataset Setup`
 - `# PART 2: Fake-vs-Real Classifier`
 - `# PART 2: Evaluation Report`
+
+```mermaid
+flowchart LR
+    A[Load Real Cat Images - Kaggle] --> B1[Split: 100 Train, 50 Val]
+    A2[Generate Fake Cats using DDIM] --> B2[Split: 100 Train, 50 Val]
+    B1 --> C[Folder Structure Setup: train and val]
+    B2 --> C
+    C --> D[Load with ImageFolder]
+    D --> E[ResNet18 with 2 Output Classes]
+    E --> F[Train with Adam - 10 Epochs]
+    F --> G[Evaluate: Accuracy and Report]
+    G --> H[Confusion Matrix]
+    G --> I[Grad-CAM Visualizations]
+    I --> J[Real vs Fake Interpretation]
+```
+
 
 ### 📊 Results
 - Best Val Accuracy: **95.0%**
